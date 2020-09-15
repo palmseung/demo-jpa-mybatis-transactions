@@ -3,7 +3,7 @@ package me.palmseung.demo.accounts.controller;
 import lombok.RequiredArgsConstructor;
 import me.palmseung.demo.accounts.Account;
 import me.palmseung.demo.accounts.service.AccountService;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -13,9 +13,11 @@ import java.util.UUID;
 public class AccountController {
     private final AccountService accountService;
 
-    @PostMapping
-    public void saveAccount() {
+    @GetMapping
+    public String saveAccount() {
         Account account = new Account(UUID.randomUUID().toString(), "password");
         accountService.save(account);
+
+        return "created!";
     }
 }
