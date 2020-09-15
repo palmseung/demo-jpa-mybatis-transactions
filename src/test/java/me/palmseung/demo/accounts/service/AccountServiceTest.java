@@ -24,16 +24,14 @@ public class AccountServiceTest {
     @Autowired
     private AccountMapper accountMapper;
 
-    @DisplayName("Save without @Transacational when GeneratedValue Strategy is Identity")
+    @DisplayName("Save without @Transacational when GeneratedValue Strategy is AUTO")
     @Test
     void saveWithoutTransaction() {
         //given
         String username = UUID.randomUUID().toString();
         String password = UUID.randomUUID().toString();
-
         //when
         Account savedAccount = accountRepository.save(new Account(username, password));
-
         //then
         Account selectedByMybatis = accountMapper.selectByUsername(savedAccount.getUsername());
         assertThat(selectedByMybatis).isNotNull();
@@ -41,7 +39,7 @@ public class AccountServiceTest {
         assertThat(selectedByMybatis.getPassword()).isEqualTo(password);
     }
 
-    @DisplayName("Save with @Transacational when GeneratedValue Strategy is Identity")
+    @DisplayName("Save with @Transacational when GeneratedValue Strategy is AUTO")
     @Transactional
     @Test
     void saveWithTransaction() {
@@ -52,6 +50,6 @@ public class AccountServiceTest {
         Account savedAccount = accountRepository.save(new Account(username, password));
         Account selectedByMybatis = accountMapper.selectByUsername(savedAccount.getUsername());
         //then
-        assertThat(selectedByMybatis).isNotNull();
+        assertThat(selectedByMybatis).isNull();
     }
 }
