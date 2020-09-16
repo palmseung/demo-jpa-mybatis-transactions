@@ -15,7 +15,7 @@ public class AccountRepositoryTest {
     AccountRepository accountRepository;
 
     @Test
-    void saveTest() {
+    void repositoryTest() {
         //given, when
         Account account = new Account("name", "password");
         Account savedAccount = accountRepository.save(account);

@@ -15,8 +15,21 @@ public class AccountController {
 
     @GetMapping
     public String saveAccount() {
-        Account account = new Account(UUID.randomUUID().toString(), "password");
-        accountService.save(account);
+        accountService.save();
+
+        return "created!";
+    }
+
+    @GetMapping(value = "/mapper")
+    public String saveAccountByMapper() {
+        accountService.saveByMapper();
+
+        return "created!";
+    }
+
+    @GetMapping(value = "/jpa")
+    public String saveAccountByJpa() {
+        accountService.saveByJpa();
 
         return "created!";
     }
