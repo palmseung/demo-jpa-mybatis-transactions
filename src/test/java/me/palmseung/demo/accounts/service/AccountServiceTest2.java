@@ -2,12 +2,14 @@ package me.palmseung.demo.accounts.service;
 
 import me.palmseung.demo.accounts.Account;
 import me.palmseung.demo.accounts.repository.AccountRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +25,9 @@ public class AccountServiceTest2 {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private TransactionManager transactionManager;
 
     @Test
     void saveByBothTest() {
@@ -54,6 +59,8 @@ public class AccountServiceTest2 {
 
 
         //then
+        assertThat(transactionManager.getClass()).isEqualTo(ChainedTransactionManager.class);
+
         Optional<Account> jpaAccount = accountRepository.findByUsername(accountForJpa.getUsername());
         assertThat(jpaAccount).isEqualTo(Optional.empty());
 
